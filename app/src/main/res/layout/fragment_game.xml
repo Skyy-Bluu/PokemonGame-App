@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.getthemall.game.GameViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/pokemon_image"
+            android:layout_width="103dp"
+            android:layout_height="93dp"
+            app:imageUrl="@{viewModel.pokemon.sprites.frontDefault}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.475"
+            tools:src="@drawable/pokemon_logo" />
+
+        <ImageView
+            android:id="@+id/enemy_image"
+            android:layout_width="103dp"
+            android:layout_height="93dp"
+            app:imageUrl="@{viewModel.evilPokemon.sprites.frontDefault}"
+            app:layout_constraintBottom_toTopOf="@+id/pokemon_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.185"
+            tools:src="@drawable/pokemon_logo" />
+
+        <Button
+            android:id="@+id/attack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="160dp"
+            android:onClick='@{() -> viewModel.attack("Enemy", "Normal")}'
+            android:text="@string/attack"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/special_attack"
+            app:layout_constraintHorizontal_bias="0.565"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/defend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick='@{()->viewModel.defend("Hero", "Normal")}'
+            android:text="@string/defend"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/special_defend"
+            app:layout_constraintHorizontal_bias="0.564"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attack" />
+
+        <Button
+            android:id="@+id/special_defend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick='@{()->viewModel.defend("Hero", "Special")}'
+            android:text="@string/special_defend"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/special_attack" />
+
+        <Button
+            android:id="@+id/special_attack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="160dp"
+            android:onClick='@{() -> viewModel.attack("Enemy", "Special")}'
+            android:text="@string/special_attack"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.755"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="77dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="28dp"
+            android:progress="@{viewModel.displayPokemonHP}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pokemon_image" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="77dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="40dp"
+            android:progress="@{viewModel.displayEvilPokemonHP}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enemy_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
