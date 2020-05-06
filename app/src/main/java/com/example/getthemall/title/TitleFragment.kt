@@ -21,8 +21,9 @@ class TitleFragment : Fragment() {
 
         val binding = FragmentTitleBinding.inflate(inflater)
 
+
         binding.startButton.setOnClickListener { view : View ->
-            view.findNavController().navigate(R.id.action_titleFragment_to_gameFragment)
+            view.findNavController().navigate(R.id.action_titleFragment_to_inventoryFragment)
         }
 
         return binding.root

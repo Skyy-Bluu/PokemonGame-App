@@ -11,15 +11,15 @@
         android:label="TitleFragment"
         tools:layout="@layout/fragment_title">
         <action
-            android:id="@+id/action_titleFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
+            android:id="@+id/action_titleFragment_to_inventoryFragment"
+            app:destination="@id/inventoryFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.getthemall.game.GameFragment"
+        android:name="com.example.getthemall.battle.BattleFragment"
         android:label="GameFragment"
-        tools:layout="@layout/fragment_game">
+        tools:layout="@layout/fragment_battle">
         <action
             android:id="@+id/action_gameFragment_to_winScreen"
             app:destination="@id/winScreen"
@@ -28,6 +28,9 @@
             android:id="@+id/action_gameFragment_to_loseScreen"
             app:destination="@id/loseScreen"
             app:popUpTo="@id/titleFragment" />
+        <argument
+            android:name="selectedPokemon"
+            app:argType="com.example.getthemall.network.Pokemon" />
     </fragment>
     <fragment
         android:id="@+id/winScreen"
@@ -39,4 +42,12 @@
         android:name="com.example.getthemall.LoseScreen"
         android:label="fragment_lose_screen"
         tools:layout="@layout/fragment_lose_screen" />
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.example.getthemall.inventory.InventoryFragment"
+        android:label="InventoryFragment" >
+        <action
+            android:id="@+id/action_inventoryFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
 </navigation>

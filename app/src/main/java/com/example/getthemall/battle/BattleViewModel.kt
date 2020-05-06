@@ -14,14 +14,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-/**
- *
- *
- * This viewmodel is used for fetching pokemon for the battle state of the app
- *
- **/
+enum class Turn{
+    PLAYER,
+    ENEMY
+}
 
-class GetPokemonViewModel: ViewModel() {
+data class SideAndStance(val side: String, val stance: String)
+
+class BattleViewModel(
+    pokemon: Pokemon
+) : ViewModel() {
 
     private var viewModelJob = Job()
 
@@ -42,28 +44,27 @@ class GetPokemonViewModel: ViewModel() {
     val turn: LiveData<Turn>
         get() = _turn
 
-    var baseHPEnemy = 0
-    var baseHpPlayer = 0
+    private var baseHPEnemy = 0
+    private var baseHpPlayer = 0
 
     init {
+        _turn.value = null
         coroutineScope.launch {
             _evilPokemon.value = getPokemon(3)
             ?.also {
                 baseHPEnemy = it.stats[5].baseStat
             }
         }
-        coroutineScope.launch {
-            _pokemon.value = getPokemon(6)
-                ?.also {
-                baseHpPlayer = it.stats[5].baseStat
-            }
-        }
+            _pokemon.value = pokemon
+                .also {
+                    baseHpPlayer = it.stats[5].baseStat
+                }
     }
 
     val displayEvilPokemonHP:LiveData<Int> = Transformations.map(evilPokemon) {
         ((it.stats[5].baseStat.toDouble() / baseHPEnemy.toDouble()) * 100).toInt()
     }
-    val displayPokemonHP:LiveData<Int> = Transformations.map(pokemon) {
+    val displayPokemonHP:LiveData<Int> = Transformations.map(this.pokemon) {
         ((it.stats[5].baseStat.toDouble() / baseHpPlayer.toDouble()) * 100).toInt()
     }
 
@@ -75,14 +76,9 @@ class GetPokemonViewModel: ViewModel() {
 
 
 
-    inner class BattleUtils{
+inner class BattleUtils{
 
         private val DELAY:Long = 2500
-
-        private val _turn = MutableLiveData<Turn>()
-
-        val turn: LiveData<Turn>
-        get() = _turn
 
     private val _dmgTakenEnemy = MutableLiveData<Boolean>()
 
@@ -193,6 +189,7 @@ class GetPokemonViewModel: ViewModel() {
 
                     _pokemon.value = _pokemon.value
                     _dmgTakenHero.value = true
+                    _turn.value = Turn.PLAYER
                 }, DELAY)
             }
 
@@ -203,15 +200,11 @@ class GetPokemonViewModel: ViewModel() {
 
                     _pokemon.value = _pokemon.value
                     _dmgTakenHero.value = true
-
+                    _turn.value = Turn.PLAYER
                 }, DELAY)
             }
-        }
-    }
 
-    fun dmgTakenDone(){
-        _dmgTakenEnemy.value = null
-        _dmgTakenHero.value = null
+        }
     }
 }
 

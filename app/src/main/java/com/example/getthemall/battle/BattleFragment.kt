@@ -1,37 +1,43 @@
-package com.example.getthemall.game
+package com.example.getthemall.battle
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.getthemall.R
-import com.example.getthemall.databinding.FragmentGameBinding
+import com.example.getthemall.databinding.FragmentBattleBinding
 import com.example.getthemall.network.Pokemon
 
 /**
  * A simple [Fragment] subclass.
  */
-class GameFragment : Fragment() {
+class BattleFragment : Fragment() {
 
-    private val viewModel: GameViewModel by lazy {
-        ViewModelProviders.of(this).get(GameViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentGameBinding.inflate(inflater)
+        val binding = FragmentBattleBinding.inflate(inflater)
 
         binding.setLifecycleOwner(this)
-        //TODO Reference PokemonGameViewModel
+
+        val pokemon = arguments?.let { BattleFragmentArgs.fromBundle(it).selectedPokemon }
+
+        val viewModelFactory = pokemon?.let { BattleViewModelFactory(it) }
+
+        val viewModel: BattleViewModel =
+            ViewModelProviders.of(
+                this, viewModelFactory).get(BattleViewModel::class.java)
+
         binding.viewModel = viewModel
+        binding.battleUtil = viewModel.BattleUtils()
 
         val evilPokemonObserver = Observer<Pokemon> {
             if (it.stats[5].baseStat <= 0) {
@@ -47,7 +53,19 @@ class GameFragment : Fragment() {
             }
         })
 
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.overflow_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,view!!.findNavController())
+                ||super.onOptionsItemSelected(item)
+
+    }
 }

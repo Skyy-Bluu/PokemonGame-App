@@ -7,11 +7,11 @@
 
         <variable
             name="battleUtil"
-            type="com.example.getthemall.battle.GetPokemonViewModel.BattleUtils" />
+            type="com.example.getthemall.battle.BattleViewModel.BattleUtils" />
 
         <variable
-            name="pokemonViewModel"
-            type="com.example.getthemall.battle.GetPokemonViewModel" />
+            name="viewModel"
+            type="com.example.getthemall.battle.BattleViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,10 +21,10 @@
 
         <ImageView
             android:id="@+id/pokemon_image"
-            android:layout_width="103dp"
-            android:layout_height="93dp"
+            android:layout_width="138dp"
+            android:layout_height="123dp"
             app:damageTakenAnimation="@{battleUtil.dmgTakenHero}"
-            app:imageUrl="@{pokemonViewModel.pokemon.sprites.frontDefault}"
+            app:imageUrl="@{viewModel.pokemon.sprites.frontDefault}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,10 +34,10 @@
 
         <ImageView
             android:id="@+id/enemy_image"
-            android:layout_width="103dp"
-            android:layout_height="93dp"
+            android:layout_width="138dp"
+            android:layout_height="123dp"
             app:damageTakenAnimation="@{battleUtil.dmgTakenEnemy}"
-            app:imageUrl="@{pokemonViewModel.evilPokemon.sprites.frontDefault}"
+            app:imageUrl="@{viewModel.evilPokemon.sprites.frontDefault}"
             app:layout_constraintBottom_toTopOf="@+id/pokemon_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,8 +98,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="77dp"
             android:layout_height="27dp"
-            android:layout_marginTop="28dp"
-            android:progress="@{pokemonViewModel.displayPokemonHP}"
+            android:layout_marginTop="16dp"
+            android:progress="@{viewModel.displayPokemonHP}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pokemon_image" />
@@ -109,8 +109,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="77dp"
             android:layout_height="27dp"
-            android:layout_marginTop="40dp"
-            android:progress="@{pokemonViewModel.displayEvilPokemonHP}"
+            android:layout_marginTop="16dp"
+            android:progress="@{viewModel.displayEvilPokemonHP}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/enemy_image" />
@@ -119,11 +119,12 @@
             android:id="@+id/imageView"
             android:layout_width="52dp"
             android:layout_height="22dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="76dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="312dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/green_arrow" />
+            app:srcCompat="@drawable/green_arrow"
+            app:turnAnimation="@{viewModel.turn}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
